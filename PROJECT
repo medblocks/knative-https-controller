@@ -1,0 +1,15 @@
+domain: medblocks.org
+layout:
+- go.kubebuilder.io/v3
+plugins:
+  manifests.sdk.operatorframework.io/v2: {}
+  scorecard.sdk.operatorframework.io/v2: {}
+projectName: medblocks-operator
+repo: github.com/medblocks/operator
+resources:
+- controller: true
+  domain: medblocks.org
+  group: serving.knative.dev
+  kind: Service
+  version: v1
+version: "3"
