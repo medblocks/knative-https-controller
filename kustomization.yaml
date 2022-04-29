@@ -1,7 +1,1 @@
-resources:
-  - "config/default"
-
-images:
-  - name: controller
-    newTag: v0.1.0
-    newName: ghcr.io/medblocks/knative-https-controller
+0.1.4
