@@ -24,6 +24,8 @@ import (
 	// to ensure that exec-entrypoint and run can make use of them.
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 
+	knserving "knative.dev/serving/pkg/apis/serving/v1"
+
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
@@ -76,6 +78,11 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err := knserving.AddToScheme(mgr.GetScheme()); err != nil {
+		setupLog.Error(err, "Failed to add CRD scheme for Knative serving")
+		os.Exit(1)
+	}
+
 	if err = (&controllers.ServiceReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
@@ -99,4 +106,5 @@ func main() {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
 	}
+
 }

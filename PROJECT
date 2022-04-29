@@ -8,8 +8,8 @@ projectName: medblocks-operator
 repo: github.com/medblocks/operator
 resources:
 - controller: true
-  domain: medblocks.org
-  group: serving.knative.dev
+  domain: knative.dev
+  group: serving
   kind: Service
   version: v1
 version: "3"
