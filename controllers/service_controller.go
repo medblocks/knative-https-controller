@@ -55,22 +55,26 @@ func (r *ServiceReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 		log.Log.Error(err, "unable to fetch service")
 		return ctrl.Result{}, err
 	}
+	const httpProtocolKey = "networking.knative.dev/http-protocol"
+	_, exists := service.Annotations[httpProtocolKey]
 
-	if service.Status.URL.Scheme == "https" {
-		service.Annotations["networking.knative.dev/http-protocol"] = "redirected"
-	} else {
-		service.Annotations["networking.knative.dev/http-protocol"] = "enabled"
+	if !exists {
+		if service.Status.URL.Scheme == "https" {
+			service.Annotations[httpProtocolKey] = "redirected"
+		} else {
+			delete(service.Annotations, httpProtocolKey)
+		}
 	}
 
 	if err := r.Update(ctx, &service); err != nil {
 		if apierrors.IsConflict(err) {
-			// The Pod has been updated since we read it.
-			// Requeue the Pod to try to reconciliate again.
+			// The Service has been updated since we read it.
+			// Requeue the Service to try to reconciliate again.
 			return ctrl.Result{Requeue: true}, nil
 		}
 		if apierrors.IsNotFound(err) {
-			// The Pod has been deleted since we read it.
-			// Requeue the Pod to try to reconciliate again.
+			// The Service has been deleted since we read it.
+			// Requeue the Service to try to reconciliate again.
 			return ctrl.Result{Requeue: true}, nil
 		}
 		log.Log.Error(err, "unable to update service")

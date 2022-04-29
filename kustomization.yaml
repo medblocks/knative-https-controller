@@ -1,0 +1,7 @@
+resources:
+  - "output.yaml"
+
+images:
+  - name: controller
+    newTag: v0.0.2
+    newName: ghcr.io/medblocks/operator
