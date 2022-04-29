@@ -1,6 +1,6 @@
 {
     "version": "0.1.0",
     "scripts": {
-        "release": "standard-version && git push --follow-tags origin main"
+        "release": "standard-version --bumpFiles=package.json,kustomization.yaml -a && git push --follow-tags origin main"
     }
 }

@@ -1,7 +1,7 @@
 resources:
-  - "output.yaml"
+  - "config/default"
 
 images:
   - name: controller
-    newTag: v0.0.2
-    newName: ghcr.io/medblocks/operator
+    newTag: v0.1.0
+    newName: ghcr.io/medblocks/knative-https-controller
