@@ -11,5 +11,5 @@ This is especially useful if you want to use HTTP01 challenge, but also want to 
 
 ## Installation
 ```
-kubectl apply -f 
+kubectl apply -k .
 ```
