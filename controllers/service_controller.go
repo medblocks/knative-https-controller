@@ -57,10 +57,12 @@ func (r *ServiceReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 	}
 	const httpProtocolKey = "networking.knative.dev/http-protocol"
 
-	if service.Status.URL.Scheme == "https" {
-		service.Annotations[httpProtocolKey] = "redirected"
-	} else {
-		delete(service.Annotations, httpProtocolKey)
+	if service.Annotations[httpProtocolKey] != "enabled" {
+		if service.Status.URL.Scheme == "https" {
+			service.Annotations[httpProtocolKey] = "redirected"
+		} else {
+			delete(service.Annotations, httpProtocolKey)
+		}
 	}
 
 	if err := r.Update(ctx, &service); err != nil {
